@@ -1,0 +1,89 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "A luxury furniture material or product silhouette.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "price": { "type": "integer" },
+        "currency": { "type": "string" },
+        "description": { "type": "string" },
+        "images": { "type": "array" },
+        "stock": { "type": "integer" },
+        "dimensions": { "type": "string" },
+        "material": { "type": "string" },
+        "tags": { "type": "array" },
+        "isActive": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "category", "price", "stock"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "A category section for partitioning products.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "image": { "type": "string" }
+      },
+      "required": ["id", "name"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "A customer order commission with user mapping.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "customer": { "type": "object" },
+        "items": { "type": "array" },
+        "total": { "type": "integer" },
+        "deliveryFee": { "type": "integer" },
+        "grandTotal": { "type": "integer" },
+        "status": { "type": "string", "enum": ["pending", "processing", "shipped", "delivered", "cancelled"] },
+        "paymentMethod": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "customer", "items", "total", "grandTotal", "status"]
+    },
+    "StoreSettings": {
+      "title": "StoreSettings",
+      "description": "Store configuration and master credentials.",
+      "type": "object",
+      "properties": {
+        "adminPasswordHash": { "type": "string" },
+        "logo": { "type": "string" },
+        "contactPhone": { "type": "string" },
+        "contactEmail": { "type": "string" },
+        "address": { "type": "string" },
+        "deliveryCharge": { "type": "integer" },
+        "taxRate": { "type": "number" },
+        "heroSlides": { "type": "array" }
+      },
+      "required": ["adminPasswordHash", "logo"]
+    }
+  },
+  "firestore": {
+    "products/{productId}": {
+      "schema": "Product",
+      "description": "Collection of materials and products."
+    },
+    "categories/{categoryId}": {
+      "schema": "Category",
+      "description": "Collection of categories."
+    },
+    "orders/{orderId}": {
+      "schema": "Order",
+      "description": "Collection of customer orders."
+    },
+    "settings/{settingId}": {
+      "schema": "StoreSettings",
+      "description": "Configuration settings."
+    }
+  }
+}

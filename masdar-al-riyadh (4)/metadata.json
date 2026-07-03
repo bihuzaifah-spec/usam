@@ -1,0 +1,6 @@
+{
+  "name": "Masdar Al-Riyadh",
+  "description": "Premium industrial grade building materials, timber, and structural steel inspired by Masdar Al-Riyadh, featuring an elegant catalog, secure shopping cart, checkout, order tracking, and a hidden admin management system.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

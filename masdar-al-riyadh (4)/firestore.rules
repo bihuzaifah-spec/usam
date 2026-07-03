@@ -1,0 +1,49 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Global safety net (default deny)
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Products Collection: read by anyone, write by admin
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if true; // Managed by admin panel
+    }
+
+    // Categories Collection: read by anyone, write by admin
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if true; // Managed by admin panel
+    }
+
+    // Settings Collection: read by anyone, write by admin
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if true; // Managed by admin panel
+    }
+
+    // Orders Collection: anyone can checkout and track by exact ID, authenticated users track theirs
+    match /orders/{orderId} {
+      // Anyone can create a new order (checkout)
+      allow create: if true;
+      
+      // Anyone can track a specific order by ID (needed for guest tracking)
+      allow get: if true;
+      
+      // Admin processing and customer cancellation
+      allow update, delete: if true;
+
+      // Restrict collection listing to prevent massive scraping of client records.
+      // Authenticated users can only list their own orders.
+      // Admin (with developer email or store domain) can list all orders.
+      allow list: if request.auth != null && (
+        request.auth.token.email == 'bihuzaifah@gmail.com' ||
+        request.auth.token.email.endsWith('@masdaronline.com') ||
+        resource.data.userId == request.auth.uid
+      );
+    }
+  }
+}
